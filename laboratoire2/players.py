@@ -17,12 +17,10 @@ def minimax_search(game, state):
     player = state.to_move
 
     def max_value(state):
-        # TODO: include a recursive call to min_value function
-
         if game.is_terminal(state):
             value = game.utility(state, player)
             return (value, None)
-        v_star = -999999
+        v_star = -infinity
         m_star = None
 
         for possible_move in game.actions(state):
@@ -35,12 +33,11 @@ def minimax_search(game, state):
         return (v_star, m_star)
 
     def min_value(state):
-        # TODO: include a recursive call to max_value function
         if game.is_terminal(state):
             value = game.utility(state, player)
             return (value, None)
         
-        v_star = 999999
+        v_star = infinity
         m_star = None
         for possible_move in game.actions(state):
             new_state = game.result(state, possible_move)
