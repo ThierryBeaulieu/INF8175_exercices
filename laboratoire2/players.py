@@ -105,13 +105,38 @@ def h_alphabeta_search(game, state, cutoff=cutoff_depth(6), h=lambda s , p: 0):
     player = state.to_move
 
     def max_value(state, alpha, beta, depth):
-        # TODO: include a recursive call to min_value function
-        raise Exception("Function not implemented")
+        if game.is_terminal(state):
+            return (game.utility(state, player), None)
+
+        v_star = - infinity
+        m_star = None
+
+        for possible_move in game.actions(state):
+            new_state = game.result(state, possible_move)
+            (v, _) = min_value(new_state, alpha, beta)
+            if v > v_star:
+                v_star = v
+                m_star = possible_move
+                alpha = max(alpha, v_star)
+            if v_star >= beta:
+                return (v_star, m_star)
+        return (v_star, m_star)
 
     def min_value(state, alpha, beta, depth):
-        # TODO: include a recursive call to min_value function
-        raise Exception("Function not implemented")
-
+        if game.is_terminal(state):
+            return (game.utility(state, player), None)
+        v_star = infinity
+        m_star = None
+        for possible_move in game.actions(state):
+            new_state = game.result(state, possible_move)
+            (v, _) = max_value(new_state, alpha, beta)
+            if v < v_star:
+                v_star = v
+                m_star = possible_move
+                beta = min(beta, v_star)
+            if v_star <= alpha:
+                return (v_star, m_star)
+        return (v_star, m_star)
     
     return max_value(state, -infinity, +infinity, 0)
 
