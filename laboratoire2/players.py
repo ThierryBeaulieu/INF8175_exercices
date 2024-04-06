@@ -58,7 +58,20 @@ def alphabeta_search(game, state):
     player = state.to_move
 
     def max_value(state, alpha, beta):
-        # TODO: include a recursive call to min_value function
+        if game.is_terminal(state):
+            return (game.utility(state), None)
+
+        v_star = - infinity
+        m_star = None
+
+        for possible_move in game.actions(state):
+            new_state = state.result(possible_move)
+            (v, _) = min_value(new_state, alpha, beta)
+            if v > v_star:
+                v_star = v
+                m_star = a
+                # a = max()
+
         raise Exception("Function not implemented")
 
     def min_value(state, alpha, beta):
