@@ -106,14 +106,16 @@ def h_alphabeta_search(game, state, cutoff=cutoff_depth(6), h=lambda s , p: 0):
 
     def max_value(state, alpha, beta, depth):
         if game.is_terminal(state):
-            return (game.utility(state, player), None)
+            return game.utility(state, player), None
+        if cutoff(game, state, depth):
+            return h(state, player), None
 
         v_star = - infinity
         m_star = None
 
         for possible_move in game.actions(state):
             new_state = game.result(state, possible_move)
-            (v, _) = min_value(new_state, alpha, beta)
+            (v, _) = min_value(new_state, alpha, beta, depth + 1)
             if v > v_star:
                 v_star = v
                 m_star = possible_move
@@ -124,12 +126,15 @@ def h_alphabeta_search(game, state, cutoff=cutoff_depth(6), h=lambda s , p: 0):
 
     def min_value(state, alpha, beta, depth):
         if game.is_terminal(state):
-            return (game.utility(state, player), None)
+            return game.utility(state, player), None
+        if cutoff(game, state, depth):
+            return h(state, player), None
+        
         v_star = infinity
         m_star = None
         for possible_move in game.actions(state):
             new_state = game.result(state, possible_move)
-            (v, _) = max_value(new_state, alpha, beta)
+            (v, _) = max_value(new_state, alpha, beta, depth + 1)
             if v < v_star:
                 v_star = v
                 m_star = possible_move
@@ -145,5 +150,9 @@ def your_nice_agent(game, state):
     return h_alphabeta_search(game, state, cutoff=cutoff_depth(1), h=your_nice_heuristic)
 
 def your_nice_heuristic(state, player):
-    # TODO: write your own heuristic
-    return 0
+    opponent = 1 if player == 2 else 2
+    
+    player_material = sum(state.board.count(piece) for piece in [player, player+2])
+    opponent_material = sum(state.board.count(piece) for piece in [opponent, opponent+2])
+    
+    return player_material - opponent_material
