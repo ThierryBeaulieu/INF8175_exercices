@@ -70,7 +70,7 @@ def alphabeta_search(game, state):
             if v > v_star:
                 v_star = v
                 m_star = possible_move
-                a = max(alpha, v_star)
+                alpha = max(alpha, v_star)
             if v_star >= beta:
                 return (v_star, m_star)
         return (v_star, m_star)
