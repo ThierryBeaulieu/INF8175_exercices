@@ -50,7 +50,7 @@
             }
         },
         {
-            "name": "Tic-Tac-Toe (alpha-beta + cutoff)",
+            "name": "Tic-Tac-Toe (minmax - alphabeta)",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/main.py",
@@ -67,6 +67,18 @@
             "request": "launch",
             "program": "${workspaceFolder}/main.py",
             "args": ["--scenario", "S6"],
+            "pythonPath": "python3",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Connect-4 (heuristics)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/main.py",
+            "args": ["--scenario", "S7"],
             "pythonPath": "python3",
             "cwd": "${workspaceFolder}",
             "env": {
